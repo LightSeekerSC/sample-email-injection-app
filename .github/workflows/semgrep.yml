@@ -1,0 +1,22 @@
+on:
+  pull_request: {}
+  push:
+    branches:
+    - main
+    - master
+    - test
+name: Semgrep
+jobs:
+  semgrep:
+    name: Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: returntocorp/semgrep-action@v1
+      with:
+        silentOn: push
+        publishUrl: https://dev.semgrep.dev
+        publishToken: ${{ secrets.SEMGREP_TOKEN }}
+        publishDeployment: 291
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
